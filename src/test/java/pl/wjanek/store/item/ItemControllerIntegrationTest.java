@@ -73,7 +73,8 @@ class ItemControllerIntegrationTest {
             .andExpect(status().isCreated())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON))
             .andExpect(content().json(body, false));
-        assertThat(JdbcTestUtils.countRowsInTableWhere(jdbcTemplate, "item", "name = 'Fourth item name' AND description = 'Fourth item description' AND price = 4.14")).isEqualTo(1);
+        assertThat(JdbcTestUtils.countRowsInTableWhere(jdbcTemplate, "item", "name = 'Fourth item name' AND description = 'Fourth item description' AND price = 4.14")).isEqualTo(
+            1);
         assertThat(JdbcTestUtils.countRowsInTableWhere(jdbcTemplate, "item", "name = 'Fifth item name' AND description = 'Fifth item description' AND price = 5.14")).isEqualTo(1);
     }
 

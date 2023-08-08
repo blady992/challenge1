@@ -34,5 +34,7 @@ public class HttpTraceSendingFilter extends OncePerRequestFilter {
     record HttpTrace(
         String url,
         String method
-    ) {}
+    ) {
+
+    }
 }
