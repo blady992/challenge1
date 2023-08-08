@@ -1,7 +1,10 @@
 package pl.wjanek.store.item;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Example;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.cache.annotation.Caching;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -23,6 +26,7 @@ public class ItemService {
     private final ItemRepository itemRepository;
     private final ItemMapper itemMapper;
 
+    @CacheEvict(cacheNames = "items", allEntries = true)
     public List<ItemDto> saveItems(Collection<CreateItemDto> dtos) {
         List<Item> items = dtos.stream()
             .map(itemMapper::toItem)
@@ -32,6 +36,10 @@ public class ItemService {
             .toList();
     }
 
+    @Caching(
+        evict = @CacheEvict(cacheNames = "items", allEntries = true),
+        put = @CachePut(cacheNames = "item", key = "#result.id()")
+    )
     public ItemDto saveItem(CreateItemDto createItemDto) {
         Item item = itemMapper.toItem(createItemDto);
         item = itemRepository.save(item);
@@ -39,21 +47,31 @@ public class ItemService {
     }
 
     @Transactional(readOnly = true)
+    @Cacheable(cacheNames = "item", key = "#id")
     public Optional<ItemDto> findItem(Long id) {
         return itemRepository.findById(id)
             .map(itemMapper::toItemDto);
     }
 
     @Transactional(readOnly = true)
+    @Cacheable(cacheNames = "items", key = "#pageable")
     public Page<ItemDto> findItems(Pageable pageable) {
         return itemRepository.findAll(pageable)
             .map(itemMapper::toItemDto);
     }
 
+    @Caching(evict = {
+        @CacheEvict(cacheNames = "items", allEntries = true),
+        @CacheEvict(cacheNames = "item", key = "#id")
+    })
     public void deleteItem(Long id) {
         itemRepository.deleteById(id);
     }
 
+    @Caching(
+        evict = @CacheEvict(cacheNames = "items", allEntries = true),
+        put = @CachePut(cacheNames = "item", key = "#id")
+    )
     public Optional<ItemDto> updateItem(Long id, UpdateItemDto dto) {
         return itemRepository.findById(id)
             .map(item -> {

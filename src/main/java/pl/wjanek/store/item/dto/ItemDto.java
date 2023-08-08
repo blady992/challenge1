@@ -1,5 +1,6 @@
 package pl.wjanek.store.item.dto;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 
 public record ItemDto(
@@ -7,6 +8,6 @@ public record ItemDto(
     String name,
     String description,
     BigDecimal price
-) {
+) implements Serializable {
 
 }
