@@ -23,7 +23,7 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.stream.Stream;
 
-@SpringBootTest
+@SpringBootTest(properties = "spring.cache.type=none")
 @AutoConfigureMockMvc
 @Sql(scripts = "classpath:sql/clean.sql", executionPhase = ExecutionPhase.AFTER_TEST_METHOD)
 @Sql(scripts = "classpath:sql/insert-items.sql", executionPhase = ExecutionPhase.BEFORE_TEST_METHOD)

@@ -10,6 +10,14 @@ services:
     ports:
       - '5672:5672'
       - '15672:15672'
+  store:
+    image: "docker.io/library/store:0.0.1-SNAPSHOT"
+    ports:
+      - '8080:8080'
+    environment:
+      - SPRING_CACHE_TYPE=redis
+      - SPRING_DATA_REDIS_HOST=redis
+      - SPRING_RABBITMQ_HOST=rabbitmq
 volumes:
   redis_data:
     driver: local

@@ -15,6 +15,7 @@ import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfi
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
+import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 import pl.wjanek.store.item.dto.ItemDto;
 import pl.wjanek.store.item.dto.UpdateItemDto;
@@ -23,6 +24,7 @@ import java.math.BigDecimal;
 import java.util.Optional;
 
 @WebMvcTest(controllers = ItemController.class, excludeAutoConfiguration = SecurityAutoConfiguration.class)
+@ContextConfiguration(classes = ItemController.class)
 class ItemControllerUnitTest {
 
     @Autowired
