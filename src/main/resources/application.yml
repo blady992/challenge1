@@ -1,3 +1,7 @@
+logging:
+  level:
+    pl.wjanek.store: TRACE
+
 spring:
   cache:
     type: simple
@@ -12,3 +16,7 @@ spring:
     active: localhost
   liquibase:
     change-log: db/changelog/db.changelog-master.xml
+
+app:
+  rabbitmq:
+    enabled: true
