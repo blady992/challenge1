@@ -25,7 +25,7 @@ public class HttpTraceSendingFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         try {
             HttpTrace httpTrace = new HttpTrace(request.getRequestURL().toString(), request.getMethod());
-            rabbitTemplate.convertAndSend("traceQueue", objectMapper.writeValueAsBytes(httpTrace));
+            rabbitTemplate.convertAndSend("traceQueue", objectMapper.writeValueAsString(httpTrace));
         } finally {
             filterChain.doFilter(request, response);
         }
